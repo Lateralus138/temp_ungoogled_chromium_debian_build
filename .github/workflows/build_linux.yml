@@ -1,0 +1,79 @@
+name: Linux Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Make Linux
+      run: |
+        ./build_ungoogle_chrome
+# BREAK="$(printf '%.s-' {1..50})"
+# ROOT="$(realpath .)"
+# RELEASE="${ROOT}/linux/release/colorstatic"
+# DEBRELEASE="${ROOT}/linux/release/colorstatic-1.0.0.deb"
+# JSON="${ROOT}/docs/json"
+# MD5LINU="${JSON}/colorstatic_linux_md5.json"
+# MD5DEBI="${JSON}/colorstatic_debian_md5.json"
+# DEBIAN="${ROOT}/linux/debian"
+# NOMEDIA="${DEBIAN}/usr/bin/.nomedia"
+# DEBBIN="${NOMEDIA//\.nomedia/colorstatic}"
+# colorstatic_linux_md5_text='{\n\t"schemaVersion": 1,\n\t"color": "2E9778",\n\t"label": "colorstatic MD5",\n\t"message": "PLACEHOLDER",\n\t"labelColor": "1d1d1d",\n\t"style": "for-the-badge",\n\t"namedLogo": "linux"\n}'
+# colorstatic_debian_md5_text='{\n\t"schemaVersion": 1,\n\t"color": "2E9778",\n\t"label": "colorstatic-1.0.0.deb MD5",\n\t"message": "PLACEHOLDER",\n\t"labelColor": "1d1d1d",\n\t"style": "for-the-badge",\n\t"namedLogo": "debian"\n}'
+# echo -e "$BREAK"
+# cd linux && echo "In Linux directory..." || exit 1
+# [[ ! -d "$DEBIAN" ]] && exit 2
+# if [[ -f "$NOMEDIA" ]]; then
+#   rm "$NOMEDIA" && echo "$NOMEDIA removed..." || exit 3
+# fi
+# make && echo "make compeleted successfully..." || exit 4
+# [[ -f "$RELEASE" ]] && echo "$RELEASE exists..." || exit 5
+# strip "$RELEASE" && echo "$RELEASE stripped successfully..." || exit 6
+# chmod 0755 "$RELEASE" && echo "$RELEASE permissions set to 0755..." || exit 7
+# MD5="$(md5sum "$RELEASE" | cut -d ' ' -f1)"
+# if [[ ! -d "$JSON" ]]; then
+#   mkdir -p "$JSON" && echo "$JSON created successfully..." || exit 8
+# fi
+# if ! [[ -f "$MD5LINU" ]]; then
+#   touch "$MD5LINU" && echo "$MD5LINU created successfully..." || exit 9
+# fi
+# echo -e "$colorstatic_linux_md5_text" > "$MD5LINU"
+# sed -i "s/\"message\": \".*\"/\"message\": \"$(md5sum $RELEASE | cut -d' ' -f 1)\"/g" "$MD5LINU" && echo "MD5SUM written to $MD5LINU successfully..." || exit 10
+# cp "$RELEASE" "$DEBBIN" && echo "$RELEASE copied to ${DEBIAN}/usr/bin/colorstatic successfully." || exit 11
+# fakeroot dpkg-deb --build debian "$DEBRELEASE" && echo "Debian package built successfully." || exit 12
+# if ! [[ -f "$MD5DEBI" ]]; then
+#   touch "$MD5DEBI" && echo "$MD5DEBI created successfully..."  || exit 13
+# fi
+# echo -e "$colorstatic_debian_md5_text" > "$MD5DEBI"
+# sed -i "s/\"message\": \".*\"/\"message\": \"$(md5sum $DEBRELEASE | cut -d' ' -f 1)\"/g" "$MD5DEBI"  || exit 14
+# if [[  ! -f "$NOMEDIA" ]]; then
+#   touch "$NOMEDIA" && echo "$NOMEDIA created..." || exit 15
+# fi
+# if [[  -f "${NOMEDIA//.nomedia/colorstatic}" ]]; then
+#   rm "${NOMEDIA//.nomedia/colorstatic}" && echo ""${NOMEDIA//.nomedia/colorstatic}" removed..." || exit 16
+# fi
+# echo -e "$BREAK"
+
+# - name: Push Linux MD5
+#   run: |
+#     git config --global user.name "Lateralus138"
+#     git config --global user.email "faithnomoread@yahoo.com"
+#     git add docs/json
+#     git commit --allow-empty -am "Uploaded MD5 - $(date -u)"
+#     git push --force
+
+# - uses: ncipollo/release-action@v1
+#   with:
+#     allowUpdates: True
+#     tag: 1.0.0.0
+#     bodyFile: "./docs/md/release.md"
+#     name: Stable Release
+#     prerelease: False
+#     artifacts: "./linux/release/colorstatic,./linux/release/colorstatic-1.0.0.deb"
+#     token: ${{ secrets.GITHUB_TOKEN }}
